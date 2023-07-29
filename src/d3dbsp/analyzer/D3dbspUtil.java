@@ -4,11 +4,13 @@ import datatypes.Lump;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class D3dbspUtil {
     private static RandomAccessFile file;
+    private static byte totalLumpCount = -1;
     
     /**
      * Reads the header of a binary file using a RandomAccessFile object.
@@ -73,6 +75,9 @@ public class D3dbspUtil {
     }
     
     public static byte getLumpCount() {
+        if(totalLumpCount != -1) {
+            return totalLumpCount;
+        }
         try {
             file.seek(0x8);
             byte[] buffer = new byte[1];

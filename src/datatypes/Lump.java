@@ -1,5 +1,7 @@
 package datatypes;
 
+import d3dbsp.analyzer.D3dbspUtil;
+
 public class Lump {
     private byte[] lumpID;
     private byte[] lumpLength;
@@ -8,7 +10,7 @@ public class Lump {
         this.lumpID = toLittleEndian(id);
         this.lumpLength = toLittleEndian(len);
     }
-    
+   
     /**
      * Get the lumpID array.
      *
@@ -35,4 +37,12 @@ public class Lump {
         return littleEndianBytes;
     }
 
+    public long calculateStartOffset() {  
+        int headerSize = 3;
+        return ((headerSize + (D3dbspUtil.getLumpCount()*2))*4);
+    }
+    
+    public long calculateEndOffset() {
+        return calculateStartOffset() + D3dbspUtil.bytesToDecimal(this.lumpLength);
+    }
 }
