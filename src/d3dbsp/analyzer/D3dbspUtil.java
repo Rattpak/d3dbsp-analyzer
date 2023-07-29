@@ -48,6 +48,14 @@ public class D3dbspUtil {
         return sb.toString();
     }
     
+    public static long bytesToDecimal(byte[] bytes) {
+        long result = 0;
+        for (int i = 0; i < bytes.length; i++) {
+            result = (result << 8) + (bytes[i] & 0xFF);
+        }
+        return result;
+    }
+    
     public static byte getVersionNum() {
         try {
             file.seek(0x4);
@@ -100,7 +108,7 @@ public class D3dbspUtil {
                     // Create a new Lump object and add it to the ArrayList
                     lumps.add(new Lump(id, len));
 
-                    // Move the file pointer to the next lump entry (8 bytes ahead)
+                    // Move the file pointer to the next lump entry (8 bytes ahead of previous)
                     file.seek(file.getFilePointer());
                 } else {
                     Logger.getLogger(D3dbspUtil.class.getName()).log(Level.SEVERE, "Failed to read lump data");

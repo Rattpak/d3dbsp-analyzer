@@ -5,10 +5,14 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class D3dbspAnalyzer {
     public static void main(String[] args) throws FileNotFoundException, IOException {
-        RandomAccessFile file = new RandomAccessFile("X:/Program Files (x86)/Steam/steamapps/common/Call of Duty World at War/raw/maps/ps3_test.d3dbsp", "r");
+        Scanner s = new Scanner(System.in);
+        System.out.println("Input a file path");
+        String path = s.nextLine();
+        RandomAccessFile file = new RandomAccessFile(path, "r");
         if (!D3dbspUtil.isValidHeader(D3dbspUtil.getHeader(file))) {
             System.exit(0);
         }
@@ -17,13 +21,8 @@ public class D3dbspAnalyzer {
         System.out.println("Lump Count: 0x"+ String.format("%02X", D3dbspUtil.getLumpCount()) + " | " + D3dbspUtil.getLumpCount());
         
         ArrayList<Lump> lumps = D3dbspUtil.parseLumpIndex();
-        //System.out.println(lumps.size());
         for (Lump l : lumps) {
-            // Convert byte arrays to meaningful representations
-            String lumpIDHex = D3dbspUtil.bytesToHex(l.getLumpID());
-            String lumpLengthHex = D3dbspUtil.bytesToHex(l.getLumpLength());
-
-            System.out.println("Lump id: " + lumpIDHex + " Lump length: " + lumpLengthHex);
+            System.out.println("Lump id: " + D3dbspUtil.bytesToHex(l.getLumpID()) + " | " + D3dbspUtil.bytesToDecimal(l.getLumpID()) + " Lump length: " + D3dbspUtil.bytesToHex(l.getLumpLength()) + " | " + D3dbspUtil.bytesToDecimal(l.getLumpLength()));
         }
     }
 }
