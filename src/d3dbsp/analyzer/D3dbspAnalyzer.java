@@ -21,8 +21,16 @@ public class D3dbspAnalyzer {
         System.out.println("Lump Count: 0x"+ String.format("%02X", D3dbspUtil.getLumpCount()) + " | " + D3dbspUtil.getLumpCount());
         
         ArrayList<Lump> lumps = D3dbspUtil.parseLumpIndex();
-        lumps.forEach(l -> {
-            System.out.println("Lump id: " + D3dbspUtil.bytesToHex(l.getLumpID()) + " | " + D3dbspUtil.bytesToDecimal(l.getLumpID()) + " Lump length: " + D3dbspUtil.bytesToHex(l.getLumpLength()) + " | " + D3dbspUtil.bytesToDecimal(l.getLumpLength()) + "\t Start offset " + l.calculateStartOffset() + " End offset " + l.calculateEndOffset() + "\t Name: " + l.getLumpName());
-        });
+        for(int i = 0; i < lumps.size(); i++) {
+            if (D3dbspUtil.bytesToDecimal(lumps.get(i).getLumpID()) == 0) {
+                lumps.get(i).calculateOffsets(0);
+            }
+            else {
+                lumps.get(i).calculateOffsets(lumps.get(i-1).getLumpEndOffset());
+            }
+            System.out.println("Lump id: " + D3dbspUtil.bytesToHex(lumps.get(i).getLumpID()) + " | " + D3dbspUtil.bytesToDecimal(lumps.get(i).getLumpID()) + " Lump length: " + D3dbspUtil.bytesToHex(lumps.get(i).getLumpLength()) + " | " + D3dbspUtil.bytesToDecimal(lumps.get(i).getLumpLength()) + "\t Start offset " + lumps.get(i).getLumpStartOffset() + " End offset " + lumps.get(i).getLumpEndOffset()+ "\t Name: " + lumps.get(i).getLumpName());
+        }
+            
+        
     }
 }
