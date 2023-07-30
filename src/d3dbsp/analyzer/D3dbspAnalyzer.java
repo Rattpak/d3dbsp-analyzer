@@ -22,7 +22,7 @@ public class D3dbspAnalyzer {
         
         ArrayList<Lump> lumps = D3dbspUtil.parseLumpIndex();
         lumps.forEach(l -> {
-            System.out.println("Lump id: " + D3dbspUtil.bytesToHex(l.getLumpID()) + " | " + D3dbspUtil.bytesToDecimal(l.getLumpID()) + " Lump length: " + D3dbspUtil.bytesToHex(l.getLumpLength()) + " | " + D3dbspUtil.bytesToDecimal(l.getLumpLength()) + "\t Start offset " + l.calculateStartOffset() + " End offset " + l.calculateEndOffset());
+            System.out.println("Lump id: " + D3dbspUtil.bytesToHex(l.getLumpID()) + " | " + D3dbspUtil.bytesToDecimal(l.getLumpID()) + " Lump length: " + D3dbspUtil.bytesToHex(l.getLumpLength()) + " | " + D3dbspUtil.bytesToDecimal(l.getLumpLength()) + "\t Start offset " + l.calculateStartOffset() + " End offset " + l.calculateEndOffset() + "\t Name: " + l.getLumpName());
         });
     }
 }
