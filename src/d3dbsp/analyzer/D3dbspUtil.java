@@ -11,6 +11,7 @@ import java.util.logging.Logger;
 public class D3dbspUtil {
     private static RandomAccessFile file;
     private static byte totalLumpCount = -1;
+    private static ArrayList<Lump> lumps;
     
     /**
      * Reads the header of a binary file using a RandomAccessFile object.
@@ -41,6 +42,23 @@ public class D3dbspUtil {
     public static boolean isValidHeader(byte[] b) throws IOException {
         return file.read(b) == b.length && java.util.Arrays.equals(b, new byte[] { 0x49, 0x42, 0x53, 0x50 });
     } 
+    
+    public static void getAndParseAllLumps() {
+        lumps = D3dbspUtil.parseLumpIndex();
+        for(int i = 0; i < lumps.size(); i++) {
+            if (D3dbspUtil.bytesToDecimal(lumps.get(i).getLumpID()) == 0) {
+                lumps.get(i).calculateOffsets(0);
+            }
+            else {
+                lumps.get(i).calculateOffsets(lumps.get(i-1).getLumpEndOffset());
+            }
+            //System.out.println("Lump id: 0x" + D3dbspUtil.bytesToHex(lumps.get(i).getLumpID()) + " | " + D3dbspUtil.bytesToDecimal(lumps.get(i).getLumpID()) + " Lump length: 0x" + D3dbspUtil.bytesToHex(lumps.get(i).getLumpLength()) + " | " + D3dbspUtil.bytesToDecimal(lumps.get(i).getLumpLength()) + "\t Start offset " + lumps.get(i).getLumpStartOffset() + " End offset " + lumps.get(i).getLumpEndOffset()+ "\t Name: " + lumps.get(i).getLumpName());
+        }
+    }
+    
+    public static ArrayList<Lump> getLumpsArray() {
+        return lumps;
+    }
     
     public static String bytesToHex(byte[] bytes) {
         StringBuilder sb = new StringBuilder();
