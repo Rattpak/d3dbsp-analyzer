@@ -72,10 +72,10 @@ public class Lump {
             return "Brush Sides";
         }
         if (D3dbspUtil.bytesToDecimal(this.lumpID) == 6) {
-            return "Unknown";
+            return "Brush Side Edge Counts";
         }
         if (D3dbspUtil.bytesToDecimal(this.lumpID) == 7) {
-            return "Unknown";
+            return "Brush Edges";
         }
         if (D3dbspUtil.bytesToDecimal(this.lumpID) == 8) {
             return "Brushes";
